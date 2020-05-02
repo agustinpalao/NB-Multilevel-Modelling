@@ -1,0 +1,99 @@
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> Master_AB<- readRDS("Data.rds")
+> View(Master_AB)
+> install.packages("R2admb")
+  install.packages("glmmADMB",
+                 repos=c("http://glmmadmb.r-forge.r-project.org/repos",
+                         getOption("repos")),
+                 type="source")
+> library(glmmADMB)
+Loading required package: MASS
+
+Attaching package: ‘glmmADMB’
+
+The following object is masked from ‘package:MASS’:
+
+    stepAIC
+
+The following object is masked from ‘package:stats’:
+
+    step
+
+> fit_nb2Mod5<- glmmadmb(DV_VE_AB~SocServicespc_b08_MS+
++                          pctj_hthcov+
++                          CC_Hect_T2_MS+
++                          GDP_Agr_T1_MS+
++                          GDP_Min_T1_MS+
++                          AE_Hect_MS+
++                          Forest_pctg+
++                          slope+
++                          GDPpcConst_MS+
++                          AB_pre_Viol_MS+
++                          Pop+
++                          HotSpot+
++                          HotSpot_T1+
++                         (1|ID_Mun)+(1|Department),
++                        data=Master_AB,
++                        zeroInflation=FALSE,
++                        family="nbinom")
+> summary(fit_nb2Mod5)
+
+Call:
+glmmadmb(formula = DV_VE_AB ~ SocServicespc_b08_MS + pctj_hthcov + 
+    CC_Hect_T2_MS + GDP_Agr_T1_MS + GDP_Min_T1_MS + AE_Hect_MS + 
+    Forest_pctg + slope + GDPpcConst_MS + AB_pre_Viol_MS + Pop + 
+    HotSpot + HotSpot_T1 + (1 | ID_Mun) + (1 | Department), data = Master_AB, 
+    family = "nbinom", zeroInflation = FALSE)
+
+AIC: 16734.3 
+
+Coefficients:
+                      Estimate Std. Error z value Pr(>|z|)    
+(Intercept)          -1.481880   0.271380   -5.46  4.7e-08 ***
+SocServicespc_b08_MS  0.000794   0.001112    0.71  0.47517    
+pctj_hthcov          -0.587287   0.147490   -3.98  6.8e-05 ***
+CC_Hect_T2_MS        -0.002302   0.002703   -0.85  0.39437    
+GDP_Agr_T1_MS        -0.838076   0.216910   -3.86  0.00011 ***
+GDP_Min_T1_MS         0.153001   0.036793    4.16  3.2e-05 ***
+AE_Hect_MS            0.005583   0.002416    2.31  0.02085 *  
+Forest_pctg           1.924297   0.276250    6.97  3.3e-12 ***
+slope                 0.067889   0.008421    8.06  7.5e-16 ***
+GDPpcConst_MS        -1.513164   0.109810  -13.78  < 2e-16 ***
+AB_pre_Viol_MS        0.356416   0.022687   15.71  < 2e-16 ***
+Pop                   0.148658   0.210510    0.71  0.48008    
+HotSpot               0.372332   0.069423    5.36  8.2e-08 ***
+HotSpot_T1            0.196686   0.069556    2.83  0.00469 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Number of observations: total=11180, ID_Mun=1118, Department=32 
+Random effect variance(s):
+Group=ID_Mun
+            Variance StdDev
+(Intercept)     1.26  1.122
+Group=Department
+            Variance StdDev
+(Intercept)    1.465   1.21
+
+Negative binomial dispersion parameter: 1.573 (std. err.: 0.09575)
+
+Log-likelihood: -8350.16 
+Warning message:
+In .local(x, sigma, ...) :
+  'sigma' and 'rdig' arguments are present for compatibility only: ignored
+
